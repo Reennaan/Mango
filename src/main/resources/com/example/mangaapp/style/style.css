@@ -1,0 +1,275 @@
+/* Certifique-se de adicionar uma importação para a fonte Dongle se necessário */
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@400&display=swap');
+
+.root {
+    -fx-background-color: #161616; /* Define a cor de fundo */
+}
+
+.caret{
+    height: 1em;
+}
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 62.5rem; /* 100vh em rem (100vh = 100/16 = 6.25rem) */
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: 'Dongle', sans-serif; /* Define a fonte Dongle como padrão */
+}
+
+#body-container {
+    position: relative;
+    width: 100%; /* 1440px */
+    height: 64rem; /* 1024px */
+    background-color: #161616;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2); /* 4px */
+}
+
+#body-container, 
+#body-container * {
+    user-select: none; /* Para navegadores modernos */
+    -webkit-user-select: none; /* Para WebKit (Chrome, Safari) */
+    -moz-user-select: none; /* Para Mozilla (Firefox) */
+    -ms-user-select: none; /* Para Internet Explorer */
+}
+
+#combo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1.8125rem; /* 29px */
+    gap: 0.625rem; /* 10px */
+    position: absolute;
+    width: 17.1875rem; /* 275px */
+    left: 4.25rem; /* 68px */
+    top: 9.1875rem; /* 147px */
+}
+
+#title {
+    font-family: 'Dongle';
+    font-size: 2.25rem; /* 36px */
+    color: #FFFFFF;
+    margin: 0;
+}
+
+/* Estilo padrão para todos os comboboxes */
+.custom-combobox {
+    width: 15rem; /* Largura total */
+    height: 2.375rem; /* 38px */
+    background: #242424; /* Fundo do combobox */
+    color: white; /* Cor do texto */
+    border: none; /* Sem borda */
+    border-radius: 0.375rem; /* Cantos arredondados */
+    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25); /* Sombra */
+    font-family: 'Dongle', sans-serif; /* Fonte */
+    font-size: 1.5625rem; /* 25px */
+    padding: 0.125rem 2.5rem 0.125rem 0.5rem; /* Ajusta o espaço para a seta */
+    appearance: none; /* Remove o estilo padrão do select */
+    -webkit-appearance: none; /* Remove o estilo do Webkit */
+    -moz-appearance: none; /* Remove o estilo do Mozilla */
+    cursor: pointer; /* Muda o cursor para mão ao passar sobre */
+    transition: background 0.3s, border-color 0.3s; /* Transição suave */
+}
+
+/* Wrapper para adicionar a seta personalizada */
+.combobox-wrapper {
+    position: relative; /* Necessário para posicionar a seta */
+}
+
+/* Seta personalizada */
+.combobox-wrapper::after {
+    content: ''; /* Adiciona uma seta */
+    position: absolute;
+    right: 1rem; /* Ajuste a posição da seta à direita */
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    width: 0; 
+    height: 0; 
+    border-left: 0.25rem solid transparent; /* Largura da seta */
+    border-right: 0.25rem solid transparent; 
+    border-top: 0.25rem solid white; /* Cor da seta */
+    pointer-events: none; /* Não permite interagir com a seta */
+}
+
+
+
+/* Ajustes para a imagem e outros estilos */
+#image-container {
+    position: absolute;
+    width: 50%; /* 720px */
+    height: 100%; /* 1024px */
+    left: 50%; /* 720px */
+    top: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#manga-background {
+    width: 50rem; /* Permite que a largura ajuste automaticamente */
+    height: 100vh; /* Ajusta a altura para ocupar a tela inteira */
+    object-fit: cover; /* Mantém a proporção e ajusta a imagem para caber no contêiner */
+    display: block;
+    z-index: 1;
+    position: absolute; /* Permite o posicionamento preciso */
+    right: 0; /* Posiciona a imagem no canto direito */
+    top: 0; /* Alinha a imagem ao topo */
+    max-width: 50vw; /* Limita a largura máxima para 50% da largura da tela */
+
+}
+
+#image-container::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(22, 22, 22, 1) 0%, rgba(22, 22, 22, 0.6) 50%, rgba(22, 22, 22, 0) 100%),
+                linear-gradient(to right,rgba(22, 22, 22, 1) 0%, rgba(22, 22, 22, 0.6) 5%, rgba(22, 22, 22, 0) 100%);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 1;
+}
+
+/* Wrapper para input e ícone */
+.search-wrapper {
+    position: absolute; /* Mantém a posição original do input */
+    left: 22.5rem; /* 360px */
+    top: 3.85rem; /* 3.875px */
+    width: 75%; /* Mesma largura */
+    height: 2.375rem; /* 38px */
+}
+
+.search-box {
+    width: 100%;
+    height: 100%; /* Pode manter a altura que já tem */
+    background: #242424;
+    color: white;
+    border: none;
+    border-radius: 0.375rem; /* 6px */
+    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25); /* 4px */
+    font-family: 'Dongle', sans-serif;
+    font-size: 1.5625rem; /* Tamanho da fonte */
+    padding: 0.125rem 2.5rem 0.125rem 0.625rem; /* Ajusta padding para acomodar o ícone à direita */
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+    /* Para ocultar o caret */
+    
+}
+
+/* Ícone da lupa */
+.search-icon {
+    position: absolute; /* Para posicionar dentro do contêiner */
+    right: 0.625rem; /* Alinha o ícone à direita do input */
+    top: 50%; /* Centraliza verticalmente */
+    transform: translateY(-50%);
+}
+
+.search-icon:hover {
+    
+    transform: translateY(-50%) scale(1.1); /* Aumenta ligeiramente o tamanho */
+}
+
+/* Efeito de clique */
+.search-icon:active {
+    transform: translateY(-50%) scale(0.9); /* Reduz um pouco o tamanho ao clicar */
+}
+
+
+
+
+.two-column-list {
+    display: flex; /* Mude para flex */
+    justify-content: flex-start; /* Para alinhar à esquerda */
+    width: 100%;
+    padding: 20px;
+    color: #f0f0f0;
+    font-family: 'Dongle', sans-serif;
+    font-size: 1.5625rem; /* 25px */
+    margin-left: 35rem; /* Ajuste conforme necessário */
+    margin-top: 18rem;
+    z-index: 3;
+}
+
+
+
+.column {
+    width: 75%; /* Ajuste para não exceder 100% ao todo */
+}
+
+.divider {
+    width: 0.125rem; /* 2px */
+    background-color: #000; /* Cor da barra vertical */
+    height: auto; /* Deixa a barra ocupar a altura das colunas */
+    margin: 0 1rem; /* Adiciona margem à esquerda e à direita */
+}
+
+ul {
+    list-style-type: none; /* Remove marcadores de lista padrão */
+    padding: 0;
+    padding-left: 8rem;
+    margin: 0;
+}
+
+li {
+    padding: 1px; /* Espaçamento entre os itens */
+    padding-left: 5rem;
+    font-family: 'Dongle', sans-serif;
+    font-size: 1.5625rem; /* 25px */
+    cursor: pointer;
+}
+
+li:hover {
+    color: #ffffff; /* Garante que o texto fique branco */
+    text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8); /* Adiciona brilho ao redor do texto */
+}
+
+
+#manga-title {
+    font-family: 'Dongle', sans-serif;
+    font-size: 2.25rem; /* 36px */
+    color: #FFFFFF;
+    position: absolute; /* Permite o controle preciso da posição */
+    /* Ajuste horizontal */
+    left: 60rem; /* 59px */
+    top: 12%; /* Ajuste vertical */
+    transform: translate(-50%, -50%); /* Centraliza o texto baseado no ponto central */
+    z-index: 2; /* Garante que o título fique acima de outros elementos, se necessário */
+}
+
+.manga-img-wrapper {
+    position: absolute; /* Permite posicionar a imagem dentro do contêiner */
+    left: 51rem; /* 50px */
+    bottom: 35rem; /* 40px */
+    transform: translate(-50%, 50%); /* Centraliza horizontalmente e ajusta verticalmente */
+    z-index: 2; /* Garante que a imagem esteja acima de outros elementos, se necessário */
+}
+
+
+/* Ajustes na própria imagem para controle adicional */
+.manga-background {
+    box-shadow: 0px 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
+}
+
+.search-icon:hover {
+    color: #ffffff; /* Garante que o texto fique branco */
+    text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8); /* Adiciona brilho ao redor do texto */
+}
+
+
+#snackbar {
+    position: fixed; /* Para posicioná-lo corretamente na tela */
+    bottom: 20px; /* Ajuste a posição na parte inferior */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Centraliza corretamente */
+    background-color: #333; /* Cor de fundo */
+    color: #fff; /* Cor do texto */
+    padding: 16px; /* Espaçamento interno */
+    border-radius: 5px; /* Cantos arredondados */
+    z-index: 1000; /* Para garantir que fique acima de outros elementos */
+    visibility: hidden; /* Inicialmente escondido */
+    opacity: 0; /* Inicialmente invisível */
+    transition: opacity 0.5s; /* Efeito suave de transição */
+}
