@@ -1,5 +1,6 @@
 package com.example.mangaapp;
 
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -16,13 +17,14 @@ import java.util.regex.Pattern;
 public class MangaLife {
     String url = "https://manga4life.com";
 
-    public List<Mangas> getAllManga() throws IOException {
-        List<Mangas> mangas = new ArrayList<>();
+    public JSONArray getAllManga() throws IOException {
+        JSONArray jsonArray = new JSONArray();
         try {
             // Fazer a requisição e obter a resposta HTML
             Document document = (Document) Jsoup.connect("https://manga4life.com/directory/")
                     .header("x-cookie", "FullPage=yes")
                     .header("x-referer", "https://manga4life.com")
+                    .timeout(10000)
                     .get();
 
             // Extrair o conteúdo HTML da resposta
@@ -45,10 +47,12 @@ public class MangaLife {
                     // Resolver entidades HTML (exemplo para título)
                     String title = Jsoup.parse(manga.getString("s")).text();
                     String id = manga.getString("i");
+                    JSONObject json = new JSONObject();
+                    json.put("id",id);
+                    json.put("title",title);
+                    
 
-                    Mangas mangabuilder = new Mangas(id,title);
-
-                    mangas.add(mangabuilder);
+                    jsonArray.put(json);
 
                 }
             } else {
@@ -57,7 +61,7 @@ public class MangaLife {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mangas;
+        return jsonArray;
     }
 
     public String searchManga(String id) throws IOException {
