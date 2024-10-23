@@ -1,13 +1,11 @@
 package com.example.mangaapp;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -17,14 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringEscapeUtils;
+import netscape.javascript.JSObject;
+
 import org.json.JSONArray;
-import javafx.stage.Screen;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
+
 
 public class Main extends Application {
 
@@ -37,18 +34,31 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        
         webView = new WebView();
         WebEngine webEngine = webView.getEngine();
         webEngine.setOnStatusChanged(event -> {
             System.out.println("Status changed: " + event.getData());
         });
 
+        //SALVE ISSOOO@!@!!!!!
+        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                JSObject window = (JSObject) webEngine.executeScript("window");
+                window.setMember("Controller", this); // Adiciona a instância da classe Main
+                System.out.println("Controller registrado com sucesso.");
+            }
+        });
+
+
+
+
         webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
             if (newState == Worker.State.FAILED) {
                 System.err.println("Failed to load: " + webEngine.getLocation());
             }
         });
-
+        
         System.setProperty("prism.order", "hw");
         System.setProperty("prism.text", "lcd");
         URL url = getClass().getResource("/com/example/mangaapp/html/index.html");
@@ -57,7 +67,7 @@ public class Main extends Application {
         } else {
             System.err.println("Arquivo HTML não encontrado!");
         }
-
+        
 
         JSONArray a = mangaLife.getAllManga();
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,6 +76,7 @@ public class Main extends Application {
                 webEngine.executeScript(script);
             }
         });
+    
 
 
         StackPane root = new StackPane(webView);
@@ -73,9 +84,6 @@ public class Main extends Application {
         int x = 1440;
         int y = 1024;
         Scene scene = new Scene(root, x, y);
-        ComboBox<String> comboBox = new ComboBox<>();
-        Screen screen = Screen.getPrimary();
-
 
 
         stage.setTitle("Mango");
@@ -85,12 +93,19 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void callSource(String source){
-
-    }
-
 
     public static void main(String[] args) {
         launch();
     }
+
+    public void receiveItem(String item) {
+        System.out.println("Item recebido do JavaScript: " + item);
+        // Coloque aqui a lógica que deseja executar com o item
+    }
+
+
+
+
+    
 }
+

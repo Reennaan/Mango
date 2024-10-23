@@ -6,6 +6,7 @@ module com.example.mangaapp {
     requires org.json;
     requires com.google.gson;
     requires org.apache.commons.lang3;
+    requires jdk.jsobject;
 
 
     opens com.example.mangaapp to javafx.fxml,com.google.gson;

@@ -97,6 +97,12 @@ body {
     pointer-events: none;
 }
 
+.combo-box-popup .list-cell {
+    -fx-pref-width: 15rem;
+    -fx-pref-height: 2.375rem;
+    -fx-background-color: #242424;
+}
+
 #image-container {
     position: absolute;
     width: 50%;
