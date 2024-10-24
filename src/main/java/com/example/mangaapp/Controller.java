@@ -5,8 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.json.JSONArray;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Controller {
     @FXML
@@ -30,10 +33,12 @@ public class Controller {
         }
     }
 
-    public void sendItemToJava(String id) {
+    public void sendItemToJava(String id) throws IOException, InterruptedException {
         System.out.println("Item recebido do JavaScript: " + id);
-        //mangaLife.searchManga(id);
 
+
+        List<Chapter> chapters = mangaLife.searchManga(id);
+        System.out.println(chapters);
         
     }
 

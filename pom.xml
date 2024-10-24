@@ -66,6 +66,19 @@
             <version>3.12.0</version> <!-- Verifique se esta versão é a mais recente -->
         </dependency>
 
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.25.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.9.2</version> <!-- Verifique se há uma versão mais recente -->
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -78,8 +91,7 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <compilerArgs>
-                        <arg>--add-modules</arg>
-                        <arg>javafx.controls,javafx.fxml,javafx.web</arg> <!-- Adicione javafx.web aqui se necessário -->
+
                     </compilerArgs>
                 </configuration>
             </plugin>

@@ -1,25 +1,22 @@
 package com.example.mangaapp;
 
-
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-
 import org.json.JSONArray;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -34,7 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        
+
         webView = new WebView();
         WebEngine webEngine = webView.getEngine();
         webEngine.setOnStatusChanged(event -> {
@@ -61,6 +58,10 @@ public class Main extends Application {
         
         System.setProperty("prism.order", "hw");
         System.setProperty("prism.text", "lcd");
+        System.setProperty("prism.lcdtext", "false");
+        System.setProperty("prism.text", "t2k");
+        System.setProperty("glass.win.uiScale", "125%");
+
         URL url = getClass().getResource("/com/example/mangaapp/html/index.html");
         if (url != null) {
             webEngine.load(url.toExternalForm());
@@ -76,8 +77,6 @@ public class Main extends Application {
                 webEngine.executeScript(script);
             }
         });
-    
-
 
         StackPane root = new StackPane(webView);
         root.setBackground(new Background(new BackgroundFill(Color.web("#161616"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -98,13 +97,19 @@ public class Main extends Application {
         launch();
     }
 
-    public void receiveItem(String item) {
+    public void receiveItem(String item) throws IOException, InterruptedException {
         System.out.println("Item recebido do JavaScript: " + item);
-        // Coloque aqui a lógica que deseja executar com o item
+        MangaLife mangaLife = new MangaLife();
+        WebEngine webEngine = webView.getEngine();
+        List<Chapter> chapters = mangaLife.searchManga(item);
+        Thread.sleep(2000);
+        Gson gson = new Gson();
+        String jsonChapters = gson.toJson(chapters);
+        String script = "chapterList(" + jsonChapters + ")";
+        webEngine.executeScript(script);
+
+
     }
-
-
-
 
     
 }

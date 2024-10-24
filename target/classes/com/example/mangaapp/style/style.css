@@ -10,8 +10,8 @@
 }
 
 #log{
-    color: #f0f0f0;
-    font-size: 70px;
+    color: #000000;
+    font-size: 20px;
     z-index: 4;
     margin: 0;
 }

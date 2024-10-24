@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="MangaApp" options="--add-modules javafx.controls,javafx.fxml,javafx.web" />
+      <module name="MangaApp" options="" />
     </option>
   </component>
 </project>

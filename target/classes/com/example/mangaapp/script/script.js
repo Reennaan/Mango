@@ -1,7 +1,9 @@
  const search = document.querySelector('.search-box');
-    const matchList = document.getElementById("match-list")
-    const sources = document.querySelector("#sources-combobox")
-    const log = document.querySelector("#log")
+ const matchList = document.getElementById("match-list")
+ const sources = document.querySelector("#sources-combobox")
+ const log = document.querySelector("#log")
+ const img = document.querySelector(".manga-img");
+ const column1 = document.querySelector(".column1");
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -23,7 +25,7 @@
                             const selectedItem = ui.item.value;
                             const index = json.findIndex(item => item.title === selectedItem)
                             
-                              log.innerHTML = log+ index
+
                               
                                 if (window.Controller) {
                                     try {
@@ -34,15 +36,24 @@
                                     }
                                 } else {
                                     log.innerHTML =  log +"JavaController não está disponível."+"<br>"; 
-                                }
-                            
-                            
+                                }     
                         }
                     });
-
             });
         };
     });
+
+ function chapterList(chapters){
+    img.src = chapters[0].img.toString();
+    /*for(let i = 0; i< chapters.length; i++){
+        if()
+        const li = document.createElement("li");
+        li.onclick = function(){
+
+        }
+        li.innerHTML = chapters[i].name  
+    }*/
+ }    
     
 
 
