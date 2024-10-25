@@ -65,6 +65,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version> <!-- Verifique se esta versão é a mais recente -->
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

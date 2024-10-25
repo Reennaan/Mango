@@ -68,13 +68,9 @@ public class Main extends Application {
         } else {
             System.err.println("Arquivo HTML não encontrado!");
         }
-        
-
-        JSONArray a = mangaLife.getAllManga();
-        webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == javafx.concurrent.Worker.State.SUCCEEDED) {
-                String script = "initializeMangaList("+a+");";
-                webEngine.executeScript(script);
+        webView.getEngine().getLoadWorker().exceptionProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                System.out.println("JavaScript Error: " + newValue.getMessage());
             }
         });
 
@@ -87,7 +83,7 @@ public class Main extends Application {
 
         stage.setTitle("Mango");
         stage.setScene(scene);
-        stage.setResizable(false); // Desativa redimensionamento da janela
+        stage.setResizable(false);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/mangaapp/img/icon.jpg"))));
         stage.show();
     }
@@ -97,8 +93,8 @@ public class Main extends Application {
         launch();
     }
 
-    public void receiveItem(String item) throws IOException, InterruptedException {
-        System.out.println("Item recebido do JavaScript: " + item);
+    public void receiveItem(String item) throws Exception {
+        System.out.println("ta passando aqui?????: " + item);
         MangaLife mangaLife = new MangaLife();
         WebEngine webEngine = webView.getEngine();
         List<Chapter> chapters = mangaLife.searchManga(item);
@@ -108,9 +104,15 @@ public class Main extends Application {
         String script = "chapterList(" + jsonChapters + ")";
         webEngine.executeScript(script);
 
+    }
+    public void activateSource() throws IOException {
+        System.out.println("passou aqui");
+        WebEngine webEngine = webView.getEngine();
+        JSONArray a = mangaLife.getAllManga();
+        String script = "initializeMangaList("+a+");";
+        webEngine.executeScript(script);
 
     }
 
-    
 }
 

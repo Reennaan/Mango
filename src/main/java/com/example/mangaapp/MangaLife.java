@@ -82,7 +82,7 @@ public class MangaLife {
         return jsonArray;
     }
 
-    public List<Chapter> searchManga(String id) throws IOException, InterruptedException {
+    public List<Chapter> searchManga(String id) throws Exception {
 
         WebDriverManager.chromedriver().setup();
         System.setProperty("webdriver.chrome.verboseLogging", "true");
@@ -95,6 +95,9 @@ public class MangaLife {
         options.addArguments("--verbose");
         options.addArguments("--window-size=1920,1080");
         WebDriver driver = new ChromeDriver(options);
+
+
+
 
 
         List<Chapter> chaptersList = new ArrayList<>();
@@ -114,8 +117,9 @@ public class MangaLife {
 
         List<WebElement> chapterElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("div.list-group > a")));
         WebElement img = driver.findElement(By.xpath("//img[contains(@class, 'img-fluid bottom-5')]"));
-
-
+        WebElement manganame = driver.findElement(By.xpath("//li[contains(@class, 'list-group-item d-none d-sm-block')]/h1"));
+        WebElement author = driver.findElement(By.xpath("//li[@class='list-group-item d-none d-md-block' and ./span[@class='mlabel' and text()='Author(s):']]"));
+        //WebElement desc = driver.findElement(By.cssSelector("div.col-md-9.col-sm-8.top-5 li:nth-child(10) div"));
 
         //Espera a página carregar completamente
         waitForPageLoad(driver);
@@ -125,34 +129,51 @@ public class MangaLife {
             String chapterId = chapterElements.get(i).getAttribute("href");
             if(i == 0){
                 chapter.setImg(img.getAttribute("src"));
+                chapter.setMangaName(manganame.getText());
+                chapter.setAuthor(author.getText());
+                //chapter.setDesc(desc.getText());
             }
 
             List<WebElement> title = driver.findElements(By.xpath("//div[@class='list-group top-10 bottom-5 ng-scope']/a[contains(@class, 'ChapterLink')]/span[@class='ng-binding' and contains(@style, 'font-weight:600')]"));
             List<WebElement>  data = driver.findElements(By.xpath("//div[@class='list-group top-10 bottom-5 ng-scope']/a[contains(@class, 'ChapterLink')]/span[contains(@class, 'float-right')]"));
 
-
-
-
-
             chapter.setId(chapterId);
             chapter.setName(title.get(i).getText());
             chapter.setDate(data.get(i).getText());
 
-
             chaptersList.add(chapter);
 
         }
+
+
+
+        /*String urlal ="https://www.anime-planet.com/manga/"+chaptersList.get(0).getMangaName();
+
+        try{
+            driver.get(urlal);
+            WebElement backgroundlink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//img[@itemprop='image' and contains(@class, 'screenshots')]")));
+            String imgsrc = backgroundlink.getAttribute("src");
+            chaptersList.get(0).setBackground(imgsrc);
+            System.out.println(backgroundlink);
+
+        }catch(Exception e){
+            throw new Exception(e);
+        }*/
+
+
+
         driver.quit();
 
 
-        System.out.println(chaptersList);
-        Gson gson = new Gson();
-        String chapterjson = gson.toJson(chaptersList);
 
         return chaptersList;
 
 
     }
+
+
+
+
 
     // Método auxiliar para esperar o carregamento da página
     private void waitForPageLoad(WebDriver driver) {

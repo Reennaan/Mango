@@ -18,6 +18,8 @@ public class Controller {
     @FXML
     private WebView webView;
 
+    WebEngine webEngine = webView.getEngine();
+
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
@@ -26,16 +28,15 @@ public class Controller {
     public void onComboChange(String value) throws IOException {
         if ("AnimeLife".equals(value)) {
             
-            WebEngine webEngine = webView.getEngine();
+
             JSONArray a = mangaLife.getAllManga();
             String script = "initializeMangaList("+a+");";
             webEngine.executeScript(script);
         }
     }
 
-    public void sendItemToJava(String id) throws IOException, InterruptedException {
+    public void sendItemToJava(String id) throws Exception {
         System.out.println("Item recebido do JavaScript: " + id);
-
 
         List<Chapter> chapters = mangaLife.searchManga(id);
         System.out.println(chapters);
