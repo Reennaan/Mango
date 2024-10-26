@@ -8,10 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -23,17 +20,32 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MangaLife {
     String url = "https://manga4life.com";
+
+
+    public static WebDriver getDriver(){
+        WebDriverManager.chromedriver().setup();
+        System.setProperty("webdriver.chrome.verboseLogging", "true");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--verbose");
+        options.addArguments("--window-size=1920,1080");
+        return new ChromeDriver(options);
+    }
+
+
 
     public JSONArray getAllManga() throws IOException {
         JSONArray jsonArray = new JSONArray();
@@ -84,21 +96,7 @@ public class MangaLife {
 
     public List<Chapter> searchManga(String id) throws Exception {
 
-        WebDriverManager.chromedriver().setup();
-        System.setProperty("webdriver.chrome.verboseLogging", "true");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-blink-features=AutomationControlled");
-        options.addArguments("--verbose");
-        options.addArguments("--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(options);
-
-
-
-
+        WebDriver driver = getDriver();
 
         List<Chapter> chaptersList = new ArrayList<>();
         String url = "https://manga4life.com/manga/"+id;
@@ -144,25 +142,20 @@ public class MangaLife {
             chaptersList.add(chapter);
 
         }
+        driver.quit();
 
 
 
-        /*String urlal ="https://www.anime-planet.com/manga/"+chaptersList.get(0).getMangaName();
 
-        try{
-            driver.get(urlal);
-            WebElement backgroundlink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//img[@itemprop='image' and contains(@class, 'screenshots')]")));
-            String imgsrc = backgroundlink.getAttribute("src");
-            chaptersList.get(0).setBackground(imgsrc);
-            System.out.println(backgroundlink);
-
+        /*try{
+            String background = getBackground(chaptersList.get(0).getMangaName());
+            chaptersList.get(0).setBackground(background);
+            System.out.println(chaptersList.get(0).getBackground());
         }catch(Exception e){
-            throw new Exception(e);
+            throw new Exception (e);
         }*/
 
 
-
-        driver.quit();
 
 
 
@@ -171,7 +164,55 @@ public class MangaLife {
 
     }
 
+    public String getBackground(String name) throws IOException {
 
+        String url = "https://anilist.co/search/manga?search="+name;
+
+
+
+        try {
+
+            WebDriver driver = getDriver();
+            driver.get(url);
+            waitForPageLoad(driver);
+
+
+            Document doc = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.70 Safari/537.36")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                    .header("Accept-Language", "en-US,en;q=0.5")
+                    .header("Referer", "https://www.anime-planet.com/")
+                    .header("Connection", "keep-alive")
+                    .header("x-cookie", "FullPage=yes")
+                    .header("Cookie", "laravel_session=b13EpCDjUoB8wGZCjFYJ6le0fqLfX1EndlF05fu5")
+                    .timeout(10000)
+                    .get();
+
+            String link = doc.selectFirst("a.cover img").attr("src");
+
+
+            System.out.println(link);
+            return link;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }finally {
+            quitDriver();
+        }
+
+    }
+
+
+
+
+    public static void quitDriver() {
+        WebDriver driver = getDriver();
+
+        if (driver != null) {
+            driver.quit();
+            System.out.println("WebDriver encerrado.");
+        }
+    }
 
 
 

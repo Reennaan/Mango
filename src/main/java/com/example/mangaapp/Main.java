@@ -48,6 +48,28 @@ public class Main extends Application {
         });
 
 
+        webEngine.setJavaScriptEnabled(true);
+        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                webEngine.executeScript("console.log = function(message) { java.log(message); };");
+                webEngine.executeScript("console.error = function(message) { java.log(message); };");
+                webEngine.executeScript("console.warn = function(message) { java.log(message); };");
+            }
+        });
+
+        // Exibir logs do JavaScript no console Java
+        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                webEngine.executeScript("java = { log: function(message) { "
+                        + "console.log(message); "
+                        + "logArea.appendText(message + '\\n'); "
+                        + "} };");
+            }
+        });
+
+
+
+
 
 
         webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
@@ -55,6 +77,11 @@ public class Main extends Application {
                 System.err.println("Failed to load: " + webEngine.getLocation());
             }
         });
+
+
+
+
+
         
         System.setProperty("prism.order", "hw");
         System.setProperty("prism.text", "lcd");
@@ -80,7 +107,7 @@ public class Main extends Application {
         int y = 1024;
         Scene scene = new Scene(root, x, y);
 
-
+        stage.setOnCloseRequest(event -> MangaLife.quitDriver());
         stage.setTitle("Mango");
         stage.setScene(scene);
         stage.setResizable(false);

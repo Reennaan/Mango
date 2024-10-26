@@ -5,9 +5,6 @@
     
 }
 
-.caret{
-    height: 1em;
-}
 
 #log{
     color: #000000;
@@ -139,12 +136,12 @@ select.custom-combobox[size]:active {
 }
 
 select.custom-combobox {
-    width: 15rem;
-    height: 2.375rem;
-    background: #242424 url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem;
+    width: 15rem !important;
+    height: 2.375rem !important;
+    background: #242424 url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")!important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 1rem !important;
     color: white;
     border: none;
     border-radius: 0.375rem;
@@ -152,9 +149,9 @@ select.custom-combobox {
     font-family: 'Dongle', sans-serif;
     font-size: 1.5625rem;
     padding: 0.125rem 2.5rem 0.125rem 0.5rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
     cursor: pointer;
 }
 select.custom-combobox::-ms-expand {
@@ -194,6 +191,7 @@ select.custom-combobox:hover {
     right: 0;
     top: 0;
     max-width: 50vw;
+    background-repeat: no-repeat;
     pointer-events: none;  
     -webkit-user-select: none;
     -moz-user-select: none;    
@@ -333,12 +331,16 @@ ul {
 }
 
 
-.li-chapter:hover , 
-.chapter-download:hover,
-.chapter-preview{
+.li-chapter:hover ,.chapter-download:hover , .chapter-preview:hover {
     color: #ffffff;
     text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8);
 }
+.li-chapter:hover ,.chapter-download:hover , .chapter-preview:hover {
+    color: #ffffff;
+
+}
+
+
 
 #manga-title {
     font-family: 'Dongle', sans-serif;
@@ -377,22 +379,49 @@ ul {
     cursor: pointer;
 }
 
-.chapter-download .chapter-preview {
-    width: 20px;
-    height: 20px; 
+
+.chapter-download {
+    width: 20px !important;
+    height: 20px !important;
     margin-right: 5px;
     display: inline-block;
     cursor: pointer;
 }
 
+ .chapter-preview {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    clip-path: inset(100% 0 0 0); /* Inicialmente invisível */
+    transition: clip-path 2s ease-out; /* Transição gradual */
+    z-index: 1; /* Coloca o preenchimento sobre a imagem */
+}
+.clicked .fill {
+    clip-path: inset(0 0 0 0); /* Preenchimento completo no clique */
+}
+
+
+
+
 #scroll-container {
-    width: 45rem;  /* Ajuste conforme necessário */
-    height: 28rem; /* Altura fixa */
-    overflow-y: auto; /* Ativa a rolagem */
+    width: 45rem;  
+    height: 28rem; 
+    overflow-y: auto; 
     border: 1px solid #cccccc00;
     padding: 10px;
     flex-direction: row;
-    gap: 20px; /* Espaçamento entre as colunas */
+    gap: 20px;
     padding: 10px;
     justify-content: center;
 }
@@ -400,6 +429,12 @@ ul {
 .manga-img{
     width:13rem;
     height:18rem;
+    pointer-events: none;  
+    -webkit-user-select: none;
+    -moz-user-select: none;    
+    -ms-user-select: none;     
+    user-select: none; 
+    position: relative;
 }
 
 .select-source{
@@ -430,7 +465,7 @@ ul {
     color:#161616;
     align-items: center;
     justify-content: center;
-    font-size: 23px;          /* Ajuste o tamanho da fonte conforme necessário */
+    font-size: 23px;         
     line-height: 1;
     padding: 0;  
     

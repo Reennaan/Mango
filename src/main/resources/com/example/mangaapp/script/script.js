@@ -62,9 +62,12 @@ function chapterList(chapters) {
     ul1.innerHTML = '';
     ul2.innerHTML = '';
 
+
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
         li.classList.add("li-chapter")
+        li.onclick = () =>{}
+
         const imgdownload = document.createElement("img");
         const imgpreview = document.createElement("img");
 
@@ -73,14 +76,26 @@ function chapterList(chapters) {
 
 
         imgdownload.classList.add("chapter-download");
+        imgdownload.onclick = () =>{
+            this.classList.toggle("clicked");
+            let fillElement = document.createElement("div");
+            fillElement.classList.add("fill");
+            this.parentNode.insertBefore(fillElement, this.nextSibling);
+            setTimeout(() => {
+                fillElement.style.clipPath = "inset(0 0 0 0)";
+            }, 10);
+
+        }
         imgpreview.classList.add("chapter-preview");
 
         if(i == 0){
             img.src = chapters[0].img
             mangatitle.innerHTML = chapters[0].mangaName;
+            background.src = chapters[0].background; 
+            
         }
 
-        background.src = chapters[0].background;
+        
 
         const chapterText = `${chapters[i].name.trim()}`;
         const textNode = document.createTextNode(chapterText);
@@ -101,10 +116,4 @@ function chapterList(chapters) {
     
 
 }
-
-
-
-
-
-
 
