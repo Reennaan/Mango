@@ -1,6 +1,7 @@
 package com.example.mangaapp;
 
 import com.google.gson.Gson;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import javafx.application.Application;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
@@ -14,6 +15,9 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.json.JSONArray;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -24,8 +28,8 @@ public class Main extends Application {
 
     @FXML
     private WebView webView;
-    public String value;
     public MangaLife mangaLife = new MangaLife();
+    public MangaOnlineBiz mangaOnlineBiz = new MangaOnlineBiz();
 
 
 
@@ -48,28 +52,6 @@ public class Main extends Application {
         });
 
 
-        webEngine.setJavaScriptEnabled(true);
-        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
-                webEngine.executeScript("console.log = function(message) { java.log(message); };");
-                webEngine.executeScript("console.error = function(message) { java.log(message); };");
-                webEngine.executeScript("console.warn = function(message) { java.log(message); };");
-            }
-        });
-
-        // Exibir logs do JavaScript no console Java
-        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
-                webEngine.executeScript("java = { log: function(message) { "
-                        + "console.log(message); "
-                        + "logArea.appendText(message + '\\n'); "
-                        + "} };");
-            }
-        });
-
-
-
-
 
 
         webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
@@ -82,7 +64,11 @@ public class Main extends Application {
 
 
 
-        
+        webEngine.load("com/example/mangaapp/html/index.html");
+
+
+
+
         System.setProperty("prism.order", "hw");
         System.setProperty("prism.text", "lcd");
         System.setProperty("prism.lcdtext", "false");
@@ -107,7 +93,8 @@ public class Main extends Application {
         int y = 1024;
         Scene scene = new Scene(root, x, y);
 
-        stage.setOnCloseRequest(event -> MangaLife.quitDriver());
+        //stage.setOnCloseRequest(event -> WebDriverManager.chromedriver().clearDriverCache().setup());
+        //stage.setOnCloseRequest(event -> MangaLife.quitDriver());
         stage.setTitle("Mango");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -125,6 +112,7 @@ public class Main extends Application {
         MangaLife mangaLife = new MangaLife();
         WebEngine webEngine = webView.getEngine();
         List<Chapter> chapters = mangaLife.searchManga(item);
+        System.out.println(item);
         Thread.sleep(2000);
         Gson gson = new Gson();
         String jsonChapters = gson.toJson(chapters);
@@ -132,7 +120,7 @@ public class Main extends Application {
         webEngine.executeScript(script);
 
     }
-    public void activateSource() throws IOException {
+    public void activateAnimeLife() throws IOException {
         System.out.println("passou aqui");
         WebEngine webEngine = webView.getEngine();
         JSONArray a = mangaLife.getAllManga();
@@ -140,6 +128,17 @@ public class Main extends Application {
         webEngine.executeScript(script);
 
     }
+
+    public void activateMangaOnlineBiz() throws IOException {
+        System.out.println("passou no manga biz");
+        WebEngine webEngine = webView.getEngine();
+        JSONArray a = mangaOnlineBiz.getAllMangaBiz();
+        String script = "initializeMangaList("+a+");";
+        webEngine.executeScript(script);
+
+    }
+
+
 
 }
 

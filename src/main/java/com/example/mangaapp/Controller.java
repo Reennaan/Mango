@@ -27,7 +27,6 @@ public class Controller {
     MangaLife mangaLife = new MangaLife();
     public void onComboChange(String value) throws IOException {
         if ("AnimeLife".equals(value)) {
-            
 
             JSONArray a = mangaLife.getAllManga();
             String script = "initializeMangaList("+a+");";

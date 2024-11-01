@@ -159,14 +159,26 @@ select.custom-combobox::-ms-expand {
 }
 
 select.custom-combobox option {
+    display: none !important;
     background-color: #242424!important;
     color: white !important;
     padding: 1rem 0.5rem !important;
     font-size: 1.5625rem !important;
     cursor: pointer !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
 }
 select.custom-combobox:hover {
     background-color: #363636 !important;
+}
+
+select.custom-combobox option:hover {
+    background-color: #363636 !important;
+}
+
+select.custom-combobox option:checked {
+    background-color: #4a4a4a !important;
 }
 
 
