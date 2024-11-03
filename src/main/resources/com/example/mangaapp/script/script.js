@@ -66,7 +66,7 @@ function chapterList(chapters) {
 
     ul1.innerHTML = '';
     ul2.innerHTML = '';
-
+    
 
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
@@ -82,8 +82,10 @@ function chapterList(chapters) {
 
         imgdownload.classList.add("chapter-download");
         imgdownload.onclick = () =>{
-            //log.innerHTML = "passou aqui pelo menos"+chapters[i].id;
-            getChapter(chapters[i].id);
+            //log.innerHTML = "passou aqui pelo menos"+chapters[i].link;
+            //getChapter(chapters[i].link);
+            window.Controller.downloadChapter("https://manga4life.com"+chapters[i].link, i+1, chapters[0].mangaName);
+
 
         }
         imgpreview.classList.add("chapter-preview");
@@ -154,6 +156,11 @@ async function fetchUI(request, injectionScript, timeout = 60000) {
     });
 }
 
+ 
+
+
+
+
 // Exemplo de uso
 
 
@@ -162,55 +169,54 @@ async function fetchUI(request, injectionScript, timeout = 60000) {
 
 
 
-//async function getChapter(data) {
- //   log.innerHTML = "Iniciando getChapter com data: ", data
+async function getChapter(data) {
+    const url = "https://manga4life.com"+data;
 
-   // const requestOptions = {
-   //     method: 'GET',
-    //    mode: 'cors',
-   //     redirect: 'follow',
-     //   credentials: 'same-origin',
-    //    headers: new Headers()
-    //};
-    //requestOptions.headers.set('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9');
-    //requestOptions.headers.set('x-cookie', 'FullPage=yes');
-    //requestOptions.headers.set('x-referer', data);
+    const requestOptions = {
+        method: 'GET',
+        mode: 'cors',
+        redirect: 'follow',
+        credentials: 'same-origin',
+        headers: new Headers()
+    };
+    requestOptions.headers.set('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9');
+    requestOptions.headers.set('x-cookie', 'FullPage=yes');
+    requestOptions.headers.set('x-referer', url);
 
 
-    //let script = `
-        //new Promise((resolve, reject) => {
-         //   setTimeout(() => {
-        //        try {
-         //           resolve([...document.querySelectorAll('div.ImageGallery div[ng-repeat] img')].map(img => img.src));
-         //       } catch(error) {
-         //           reject(error);
-              //  }
-         //   }, 2500);
-      //  });
- //   `;
+    let script = `
+        new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try {
+                    resolve([...document.querySelectorAll('div.ImageGallery div[ng-repeat] img')].map(img => img.src));
+                } catch(error) {
+                    reject(error);
+                }
+            }, 2500);
+        });
+    `;
 
-   /* try {
-        log.innerHTML = data
-        const res = await fetch(data,requestOptions)
-        if(res.ok){
-            log.innerHTML = 'Network response was not ok: ' + res.statusText;
-        }
-        const cap = await fetchUI();
+    try {
 
-            const result = await fetchUI({ url: data }, script);
-            console.log('Resultado:', result);
-            console.error('Erro:', error);
+        let res = await new Request(url,requestOptions)
+        let data = await fetchUI(res,script)
+       
         
-
-        return cap;
+        log.innerHTML = data;
+        return data.map(element => this.createConnectorURI(this.getAbsolutePath(element, request.url)));
     } catch (erro) {
         log.innerHTML = "deu merda" + erro;
      
         throw new Error("Ocorreu um erro: " + erro); 
     }
 
-    log.innerHTML = data;
-    */
-//}
+    
+
+
+    
+
+
+    
+}
 
 

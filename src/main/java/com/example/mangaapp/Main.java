@@ -18,8 +18,10 @@ import org.json.JSONArray;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,7 +95,7 @@ public class Main extends Application {
         int y = 1024;
         Scene scene = new Scene(root, x, y);
 
-        //stage.setOnCloseRequest(event -> WebDriverManager.chromedriver().clearDriverCache().setup());
+        stage.setOnCloseRequest(event -> WebDriverManager.chromedriver().clearDriverCache().setup());
         //stage.setOnCloseRequest(event -> MangaLife.quitDriver());
         stage.setTitle("Mango");
         stage.setScene(scene);
@@ -135,6 +137,12 @@ public class Main extends Application {
         JSONArray a = mangaOnlineBiz.getAllMangaBiz();
         String script = "initializeMangaList("+a+");";
         webEngine.executeScript(script);
+
+    }
+
+    public void downloadChapter(String link, int num, String name) throws IOException {
+        MangaLife mangaLife = new MangaLife();
+        List<File> downloadedpages =  mangaLife.downloadChapter(link,num,name);
 
     }
 
