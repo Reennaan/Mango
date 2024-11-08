@@ -113,7 +113,7 @@ public class Main extends Application {
         System.out.println("ta passando aqui?????: " + item);
         MangaLife mangaLife = new MangaLife();
         WebEngine webEngine = webView.getEngine();
-        List<Chapter> chapters = mangaLife.searchManga(item);
+        List<Chapter> chapters = mangaLife.searchManga2(item);
         System.out.println(item);
         Thread.sleep(2000);
         Gson gson = new Gson();
@@ -140,9 +140,19 @@ public class Main extends Application {
 
     }
 
-    public void downloadChapter(String link, int num, String name) throws IOException {
+    public void downloadChapter(String link, String chapternum, String name) throws IOException {
+        System.out.println("antes:"+chapternum.toString());
+        String result = chapternum.replaceAll("[a-zA-Z]", "");
+        result = result.replaceAll("\\.","").trim();
+        result = result.replaceAll("#", "").trim();
+        System.out.println("depois:"+result);
         MangaLife mangaLife = new MangaLife();
-        List<File> downloadedpages =  mangaLife.downloadChapter(link,num,name);
+        link = link.substring(0,link.length() -6);
+        System.out.println(link);
+        mangaLife.downloadMangalifeChapter(link);
+
+
+        //List<File> downloadedpages =  mangaLife.downloadChapter(link,result,name);
 
     }
 

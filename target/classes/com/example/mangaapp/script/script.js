@@ -82,9 +82,8 @@ function chapterList(chapters) {
 
         imgdownload.classList.add("chapter-download");
         imgdownload.onclick = () =>{
-            //log.innerHTML = "passou aqui pelo menos"+chapters[i].link;
-            //getChapter(chapters[i].link);
-            window.Controller.downloadChapter("https://manga4life.com"+chapters[i].link, i+1, chapters[0].mangaName);
+       
+            window.Controller.downloadChapter("https://manga4life.com"+chapters[i].link, chapters[i].name.trim() ,chapters[0].mangaName);
 
 
         }
