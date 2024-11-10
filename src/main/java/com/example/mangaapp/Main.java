@@ -18,12 +18,14 @@ import org.json.JSONArray;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javafx.scene.control.Button;
 
 
 public class Main extends Application {
@@ -66,7 +68,7 @@ public class Main extends Application {
 
 
 
-        webEngine.load("com/example/mangaapp/html/index.html");
+
 
 
 
@@ -102,6 +104,7 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/mangaapp/img/icon.jpg"))));
         stage.show();
+
     }
 
 
@@ -147,9 +150,9 @@ public class Main extends Application {
         result = result.replaceAll("#", "").trim();
         System.out.println("depois:"+result);
         MangaLife mangaLife = new MangaLife();
-        link = link.substring(0,link.length() -6);
+        String fixedlink = link.substring(0,link.length() -6);
         System.out.println(link);
-        mangaLife.downloadMangalifeChapter(link);
+        mangaLife.downloadMangalifeChapterAsync(fixedlink);
 
 
         //List<File> downloadedpages =  mangaLife.downloadChapter(link,result,name);
@@ -159,4 +162,3 @@ public class Main extends Application {
 
 
 }
-

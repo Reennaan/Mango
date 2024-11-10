@@ -2,9 +2,11 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../javafxsdk2/lib" />
+      <root url="file://$PROJECT_DIR$/../javafxsdk2/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../javafxsdk2/lib" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/../javafxsdk2/lib" recursive="false" />
   </library>
 </component>

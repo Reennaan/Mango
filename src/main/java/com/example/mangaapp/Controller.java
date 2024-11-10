@@ -34,12 +34,12 @@ public class Controller {
         }
     }
 
-    public void sendItemToJava(String id) throws Exception {
+    /*public void sendItemToJava(String id) throws Exception {
         System.out.println("Item recebido do JavaScript: " + id);
 
         List<Chapter> chapters = mangaLife.searchManga2(id);
         System.out.println(chapters);
-        
-    }
+
+    }*/
 
 }

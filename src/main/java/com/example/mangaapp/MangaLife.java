@@ -1,5 +1,8 @@
 package com.example.mangaapp;
 
+import javafx.fxml.FXML;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -10,6 +13,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -24,6 +29,7 @@ import java.util.regex.Pattern;
 
 public class MangaLife {
     String url = "https://manga4life.com";
+
 
 
 
@@ -94,7 +100,7 @@ public class MangaLife {
                 Chapter chapter = new Chapter();
                 chapter.setLink(element.getAttribute("href"));
                 chapter.setName(element.findElement(By.cssSelector("span.ng-binding:nth-of-type(1)")).getText());
-            //implementar data depois
+                //implementar data depois
 
                 chapterList.add(chapter);
             }
@@ -146,6 +152,15 @@ public class MangaLife {
     }
 
 
+    public void searchManga2Async(String id) {
+        new Thread(() -> {
+            try {
+                searchManga2(id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
 
 
@@ -197,11 +212,26 @@ public class MangaLife {
 
     }*/
 
+    public void downloadMangalifeChapterAsync(String link) {
+        new Thread(() -> {
+            try {
+                downloadMangalifeChapter(link);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
 
     public List<File> downloadMangalifeChapter(String link) throws IOException {
         List<File> downloadedpages = new ArrayList<>();
         WebDriver driver = ChromeDriver.getDriver();
-
 
 
         for (int i = 1; i< 60;i++){
@@ -211,10 +241,13 @@ public class MangaLife {
 
             WebElement pageimg = driver.findElement(By.cssSelector("img.img-fluid"));
             String imgurl = pageimg.getAttribute("ng-src");
-            String[] title = driver.findElement(By.cssSelector("meta[property='og:title']")).getAttribute("content").replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+            String[] title = driver.findElement(By.cssSelector("meta[property='og:title']")).getAttribute("content").replaceAll("[^a-zA-Z0-9 _\\-\\.]","").split(" ");
 
 
-            if(imgurl.isEmpty()){break;}
+            if(imgurl.isEmpty()){
+                break;
+
+            }
 
             String downloadPath = System.getProperty("user.home")+"/Documents/Mango/"+title[0]+"/chapter_"+title[2];
 
@@ -226,6 +259,7 @@ public class MangaLife {
                         .GET().build();
                 HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
                 if(response.statusCode() == 404){
+
                     break;
                 }
                 File imageFile = new File(downloadPath, title[0] +"_"+title[2]+ "_"+ i +".png");
@@ -262,53 +296,53 @@ public class MangaLife {
         String downloadPath = System.getProperty("user.home")+"/Documents/Mango/"+name+"/chapter_"+s;
 
         for(int i = 1; i< 60;i++){
-          try{
+            try{
 
-              String url = "https://scans.lastation.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
-              String urlhot = "https://scans-hot.leanbox.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
-              String lowee = "https://official.lowee.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
-              String lean = "https://hot.leanbox.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
-              String part = "https://hot.leanbox.us/manga/"+name+"/Part1/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
-              if(!isUrlWorking(url)) {
-                  url = urlhot;
-              }else
-              if (!isUrlWorking(urlhot)){
-                  url = lowee;
-              }else
-              if(!isUrlWorking(lowee)){
-                  url = lean;
-              }else
-              if(!isUrlWorking(lean)){
-                  url = part;
-              }
-
-
+                String url = "https://scans.lastation.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
+                String urlhot = "https://scans-hot.leanbox.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
+                String lowee = "https://official.lowee.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
+                String lean = "https://hot.leanbox.us/manga/"+name+"/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
+                String part = "https://hot.leanbox.us/manga/"+name+"/Part1/"+s+"-0"+(i <10 ? "0" +i : i )+".png";
+                if(!isUrlWorking(url)) {
+                    url = urlhot;
+                }else
+                if (!isUrlWorking(urlhot)){
+                    url = lowee;
+                }else
+                if(!isUrlWorking(lowee)){
+                    url = lean;
+                }else
+                if(!isUrlWorking(lean)){
+                    url = part;
+                }
 
 
-              Files.createDirectories(Paths.get(downloadPath));
-              System.out.println("url:" +url);
 
-              HttpClient client = HttpClient.newHttpClient();
-              HttpRequest request = HttpRequest.newBuilder()
-                      .uri(URI.create(url))
-                      .GET().build();
-              HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
 
-              if(response.statusCode() == 404){
-                  break;
-              }
+                Files.createDirectories(Paths.get(downloadPath));
+                System.out.println("url:" +url);
 
-              File imageFile = new File(downloadPath, name + "_" + num + "_"+ i +".png");
-              try(FileOutputStream out = new FileOutputStream(imageFile)){
-                  response.body().transferTo(out);
-                  downloadedpages.add(imageFile);
-              }
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .GET().build();
+                HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
 
-          }catch (Exception e){
-              System.out.println("Erro ao baixar imagem " + i + ": " + e.getMessage());
-          }
+                if(response.statusCode() == 404){
+                    break;
+                }
 
-      }
+                File imageFile = new File(downloadPath, name + "_" + num + "_"+ i +".png");
+                try(FileOutputStream out = new FileOutputStream(imageFile)){
+                    response.body().transferTo(out);
+                    downloadedpages.add(imageFile);
+                }
+
+            }catch (Exception e){
+                System.out.println("Erro ao baixar imagem " + i + ": " + e.getMessage());
+            }
+
+        }
 
 
         return downloadedpages;

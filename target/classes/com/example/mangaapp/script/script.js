@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const list = [];
     sources.addEventListener("change", () => {
         const value = sources.value;
-        
+
         if(value === "AnimeLife") {
             window.Controller.activateAnimeLife();
         }
@@ -30,10 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
             json.forEach(data => {
                 list.push(data.title);
             });
-           
 
-        
-            
+
+
+
                 $("#auto_check").autocomplete({
                     source: function (request, response) {
                         const results = $.ui.autocomplete.filter(list, request.term);
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     }
                 });
-       
+
     };
 });
 
@@ -66,43 +66,64 @@ function chapterList(chapters) {
 
     ul1.innerHTML = '';
     ul2.innerHTML = '';
-    
 
+
+   
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
         li.classList.add("li-chapter")
         li.onclick = () =>{}
 
-        const imgdownload = document.createElement("img");
-        const imgpreview = document.createElement("img");
-
-        imgdownload.src = "../img/downloadcloud.png";
-        imgpreview.src = "../img/previeweye.png";
-
-
+        const imgdownload = document.createElement("div");
         imgdownload.classList.add("chapter-download");
-        imgdownload.onclick = () =>{
-       
-            window.Controller.downloadChapter("https://manga4life.com"+chapters[i].link, chapters[i].name.trim() ,chapters[0].mangaName);
 
+        const cloudicon = document.createElement("i");
+        cloudicon.classList.add("fa", "fa-cloud-arrow-down");
+
+        const checkdownload = document.createElement("input");
+        checkdownload.className = "form-check-input"
+        checkdownload.type = "checkbox"
+
+        imgdownload.appendChild(cloudicon);
+        
+        const spinner = document.createElement("span");
+        spinner.className = "loader";
+        spinner.style.display = "none";
+    
+
+
+        
+        imgdownload.onclick = async () =>{
+            imgdownload.style.display = "none";
+            spinner.style.display = "inline-block";
+
+            try{
+              await window.Controller. downloadChapter(chapters[i].link, chapters[i].name.trim() ,chapters[0].mangaName);
+
+            } finally{
+                spinner.style.display = "none";
+                imgdownload.style.display = "";
+            }
 
         }
-        imgpreview.classList.add("chapter-preview");
+
+        
 
         if(i == 0){
             img.src = chapters[0].img
             mangatitle.innerHTML = chapters[0].mangaName;
-            background.src = chapters[0].background; 
-            
+            background.src = chapters[0].background;
+
         }
 
-        
+
 
         const chapterText = `${chapters[i].name.trim()}`;
         const textNode = document.createTextNode(chapterText);
 
         li.appendChild(imgdownload);
-        li.appendChild(imgpreview);
+        li.appendChild(spinner);
+        li.appendChild(checkdownload);
         li.appendChild(textNode);
 
         div = chapters.length / 2;
@@ -113,8 +134,8 @@ function chapterList(chapters) {
             ul2.appendChild(li);
         }
     }
-    
-    
+
+
 
 }
 
@@ -155,7 +176,7 @@ async function fetchUI(request, injectionScript, timeout = 60000) {
     });
 }
 
- 
+
 
 
 
@@ -199,23 +220,21 @@ async function getChapter(data) {
 
         let res = await new Request(url,requestOptions)
         let data = await fetchUI(res,script)
-       
-        
+
+
         log.innerHTML = data;
         return data.map(element => this.createConnectorURI(this.getAbsolutePath(element, request.url)));
     } catch (erro) {
         log.innerHTML = "deu merda" + erro;
-     
-        throw new Error("Ocorreu um erro: " + erro); 
+
+        throw new Error("Ocorreu um erro: " + erro);
     }
 
-    
 
 
-    
 
 
-    
+
+
+
 }
-
-
