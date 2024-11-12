@@ -212,10 +212,10 @@ public class MangaLife {
 
     }*/
 
-    public void downloadMangalifeChapterAsync(String link) {
+    public void downloadMangalifeChapterAsync(String link,String cap,String name) {
         new Thread(() -> {
             try {
-                downloadMangalifeChapter(link);
+                downloadMangalifeChapter(link,cap,name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -229,7 +229,7 @@ public class MangaLife {
 
 
 
-    public List<File> downloadMangalifeChapter(String link) throws IOException {
+    public List<File> downloadMangalifeChapter(String link,String cap,String name) throws IOException {
         List<File> downloadedpages = new ArrayList<>();
         WebDriver driver = ChromeDriver.getDriver();
 
@@ -241,7 +241,7 @@ public class MangaLife {
 
             WebElement pageimg = driver.findElement(By.cssSelector("img.img-fluid"));
             String imgurl = pageimg.getAttribute("ng-src");
-            String[] title = driver.findElement(By.cssSelector("meta[property='og:title']")).getAttribute("content").replaceAll("[^a-zA-Z0-9 _\\-\\.]","").split(" ");
+            String[] title = driver.findElement(By.cssSelector("meta[property='og:title']")).getAttribute("content").split(" ");
 
 
             if(imgurl.isEmpty()){
@@ -249,7 +249,7 @@ public class MangaLife {
 
             }
 
-            String downloadPath = System.getProperty("user.home")+"/Documents/Mango/"+title[0]+"/chapter_"+title[2];
+            String downloadPath = System.getProperty("user.home")+"/Documents/Mango/"+name.replaceAll("[^a-zA-Z0-9 _\\-\\.]","")+"/Chapter_"+cap;
 
             try{
                 Files.createDirectories(Paths.get(downloadPath));
@@ -262,7 +262,7 @@ public class MangaLife {
 
                     break;
                 }
-                File imageFile = new File(downloadPath, title[0] +"_"+title[2]+ "_"+ i +".png");
+                File imageFile = new File(downloadPath, name.replaceAll(" ","-")+cap+ "_Page_"+ i +".png");
                 try(FileOutputStream out = new FileOutputStream(imageFile)){
                     response.body().transferTo(out);
                     downloadedpages.add(imageFile);

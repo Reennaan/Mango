@@ -144,7 +144,7 @@ public class Main extends Application {
     }
 
     public void downloadChapter(String link, String chapternum, String name) throws IOException {
-        System.out.println("antes:"+chapternum.toString());
+        System.out.println("antes:"+chapternum);
         String result = chapternum.replaceAll("[a-zA-Z]", "");
         result = result.replaceAll("\\.","").trim();
         result = result.replaceAll("#", "").trim();
@@ -152,7 +152,7 @@ public class Main extends Application {
         MangaLife mangaLife = new MangaLife();
         String fixedlink = link.substring(0,link.length() -6);
         System.out.println(link);
-        mangaLife.downloadMangalifeChapterAsync(fixedlink);
+        mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name);
 
 
         //List<File> downloadedpages =  mangaLife.downloadChapter(link,result,name);

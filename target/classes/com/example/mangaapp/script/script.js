@@ -63,16 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function chapterList(chapters) {
-
     ul1.innerHTML = '';
     ul2.innerHTML = '';
 
-
-   
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
-        li.classList.add("li-chapter")
-        li.onclick = () =>{}
+        li.classList.add("li-chapter");
 
         const imgdownload = document.createElement("div");
         imgdownload.classList.add("chapter-download");
@@ -81,42 +77,35 @@ function chapterList(chapters) {
         cloudicon.classList.add("fa", "fa-cloud-arrow-down");
 
         const checkdownload = document.createElement("input");
-        checkdownload.className = "form-check-input"
-        checkdownload.type = "checkbox"
+        checkdownload.className = "form-check-input";
+        checkdownload.type = "checkbox";
 
         imgdownload.appendChild(cloudicon);
-        
+
         const spinner = document.createElement("span");
         spinner.className = "loader";
         spinner.style.display = "none";
-    
 
 
-        
-        imgdownload.onclick = async () =>{
-            imgdownload.style.display = "none";
+        li.appendChild(spinner);
+
+        imgdownload.onclick = async () => {
+            cloudicon.style.display = "none";
             spinner.style.display = "inline-block";
 
-            try{
-              await window.Controller. downloadChapter(chapters[i].link, chapters[i].name.trim() ,chapters[0].mangaName);
-
-            } finally{
+            try {
+                await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName);
+            } finally {
                 spinner.style.display = "none";
-                imgdownload.style.display = "";
+                cloudicon.style.display = "inline-block";
             }
-
-        }
-
-        
+        };
 
         if(i == 0){
-            img.src = chapters[0].img
+            img.src = chapters[0].img;
             mangatitle.innerHTML = chapters[0].mangaName;
             background.src = chapters[0].background;
-
         }
-
-
 
         const chapterText = `${chapters[i].name.trim()}`;
         const textNode = document.createTextNode(chapterText);
@@ -126,7 +115,7 @@ function chapterList(chapters) {
         li.appendChild(checkdownload);
         li.appendChild(textNode);
 
-        div = chapters.length / 2;
+        const div = chapters.length / 2;
 
         if (i < div) {
             ul1.appendChild(li);
@@ -134,10 +123,8 @@ function chapterList(chapters) {
             ul2.appendChild(li);
         }
     }
-
-
-
 }
+
 
 
 
@@ -229,12 +216,6 @@ async function getChapter(data) {
 
         throw new Error("Ocorreu um erro: " + erro);
     }
-
-
-
-
-
-
 
 
 }
