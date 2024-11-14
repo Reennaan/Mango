@@ -8,6 +8,7 @@ const ul1 = document.querySelector("#ul1")
 const ul2 = document.querySelector("#ul2")
 const mangatitle = document.querySelector("#manga-title")
 const background = document.querySelector("#manga-background")
+//const spinner = document.querySelector(".spinner-grow");
 
 
 
@@ -80,24 +81,43 @@ function chapterList(chapters) {
         checkdownload.className = "form-check-input";
         checkdownload.type = "checkbox";
 
-        imgdownload.appendChild(cloudicon);
 
-        const spinner = document.createElement("span");
-        spinner.className = "loader";
+
+        const spinner = document.createElement('div');
+
+        // Adicionar as classes ao spinner
+        spinner.classList.add('spinner-grow', 'text-light');
+        spinner.setAttribute('role', 'status');
+
+        // Criar o elemento span
+        const span = document.createElement('span');
+        span.classList.add('sr-only');
+        span.textContent = 'Loading...';
         spinner.style.display = "none";
 
 
-        li.appendChild(spinner);
+    
+        imgdownload.appendChild(cloudicon);
 
+
+
+
+     
         imgdownload.onclick = async () => {
-            cloudicon.style.display = "none";
-            spinner.style.display = "inline-block";
-
+            cloudicon.style.display = "none"
+            spinner.style.display = "inline-block"
+            imgdownload.appendChild(spinner);
+            imgdownload.offsetHeight;
+            
+    
             try {
+                
                 await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName);
+            
             } finally {
-                spinner.style.display = "none";
-                cloudicon.style.display = "inline-block";
+                log.innerHTML = "terminou"
+             
+                
             }
         };
 
@@ -111,7 +131,7 @@ function chapterList(chapters) {
         const textNode = document.createTextNode(chapterText);
 
         li.appendChild(imgdownload);
-        li.appendChild(spinner);
+    
         li.appendChild(checkdownload);
         li.appendChild(textNode);
 
@@ -123,6 +143,12 @@ function chapterList(chapters) {
             ul2.appendChild(li);
         }
     }
+
+}
+
+function downloadComplete(){
+    spinner.style.display = "none";
+    cloudicon.style.display = "inline-block";
 }
 
 

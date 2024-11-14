@@ -155,8 +155,6 @@ public class Main extends Application {
         mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name);
 
 
-        //List<File> downloadedpages =  mangaLife.downloadChapter(link,result,name);
-
     }
 
 

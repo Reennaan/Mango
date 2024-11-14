@@ -1,20 +1,13 @@
 package com.example.mangaapp;
 
-import javafx.fxml.FXML;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -177,7 +170,13 @@ public class MangaLife {
 
             driver.get(url);
 
-            WebElement pageimg = driver.findElement(By.cssSelector("img.img-fluid"));
+            WebElement pageimg;
+            try{
+                pageimg = driver.findElement(By.cssSelector("img.img-fluid"));
+            }catch (Exception e){
+                break;
+            }
+
             String imgurl = pageimg.getAttribute("ng-src");
             String[] title = driver.findElement(By.cssSelector("meta[property='og:title']")).getAttribute("content").split(" ");
 
@@ -213,6 +212,10 @@ public class MangaLife {
 
         }
         driver.quit();
+       //preciso executar o script de finalização do metodo no js  downloadComplete()
+
+
+
 
         return downloadedpages;
 
