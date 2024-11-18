@@ -63,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 
+
+
+
+
 function chapterList(chapters) {
     ul1.innerHTML = '';
     ul2.innerHTML = '';
@@ -70,6 +74,8 @@ function chapterList(chapters) {
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
         li.classList.add("li-chapter");
+        li.setAttribute("id",i)
+
 
         const imgdownload = document.createElement("div");
         imgdownload.classList.add("chapter-download");
@@ -108,17 +114,9 @@ function chapterList(chapters) {
             spinner.style.display = "inline-block"
             imgdownload.appendChild(spinner);
             imgdownload.offsetHeight;
+            await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName, li.id.toString());
             
-    
-            try {
-                
-                await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName);
-            
-            } finally {
-                log.innerHTML = "terminou"
-             
-                
-            }
+           
         };
 
         if(i == 0){
@@ -146,10 +144,22 @@ function chapterList(chapters) {
 
 }
 
-function downloadComplete(){
-    spinner.style.display = "none";
-    cloudicon.style.display = "inline-block";
+function downloadComplete(id){
+    //o downloadComplete ja está sendo chamado, mas agora precisa do indice
+    const li = document.getElementById(id)
+    const spinner = li.querySelector(".spinner-grow");
+    const cloudicon = li.querySelector(".fa")
+
+    if (spinner) {
+        spinner.style.display = "none";
+    }
+    if (cloudicon) {
+        cloudicon.style.display = "inline-block"; 
+    }
+    
 }
+
+
 
 
 

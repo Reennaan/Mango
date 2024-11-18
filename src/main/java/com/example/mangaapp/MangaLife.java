@@ -1,6 +1,8 @@
 package com.example.mangaapp;
 
 
+import javafx.application.Platform;
+import javafx.scene.web.WebEngine;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -8,6 +10,10 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -147,10 +153,15 @@ public class MangaLife {
 
 
 
-    public void downloadMangalifeChapterAsync(String link,String cap,String name) {
+    public void downloadMangalifeChapterAsync(String link,String cap,String name,WebEngine webEngine,String id) {
         new Thread(() -> {
             try {
                 downloadMangalifeChapter(link,cap,name);
+                Platform.runLater(() ->{
+                    System.out.println("o id é:"+id);
+                    webEngine.executeScript("if (typeof downloadComplete === 'function') downloadComplete("+id+");");
+
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -213,7 +224,6 @@ public class MangaLife {
         }
         driver.quit();
        //preciso executar o script de finalização do metodo no js  downloadComplete()
-
 
 
 

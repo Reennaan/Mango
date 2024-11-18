@@ -32,6 +32,7 @@ public class Main extends Application {
 
     @FXML
     private WebView webView;
+    public  WebEngine webEngine;
     public MangaLife mangaLife = new MangaLife();
     public MangaOnlineBiz mangaOnlineBiz = new MangaOnlineBiz();
 
@@ -41,7 +42,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 
         webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
+        webEngine = webView.getEngine();
         webEngine.setOnStatusChanged(event -> {
             System.out.println("Status changed: " + event.getData());
         });
@@ -98,7 +99,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, x, y);
 
         stage.setOnCloseRequest(event -> WebDriverManager.chromedriver().clearDriverCache().setup());
-        //stage.setOnCloseRequest(event -> MangaLife.quitDriver());
         stage.setTitle("Mango");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -143,7 +143,7 @@ public class Main extends Application {
 
     }
 
-    public void downloadChapter(String link, String chapternum, String name) throws IOException {
+    public void downloadChapter(String link, String chapternum, String name,String id) throws IOException {
         System.out.println("antes:"+chapternum);
         String result = chapternum.replaceAll("[a-zA-Z]", "");
         result = result.replaceAll("\\.","").trim();
@@ -152,11 +152,16 @@ public class Main extends Application {
         MangaLife mangaLife = new MangaLife();
         String fixedlink = link.substring(0,link.length() -6);
         System.out.println(link);
-        mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name);
+        this.webEngine = webView.getEngine();
+        mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name,webEngine,id);
 
 
     }
 
+    public WebEngine getWebEngine(){
+        WebEngine webEngine = webView.getEngine();
+        return webEngine;
+    }
 
 
 }

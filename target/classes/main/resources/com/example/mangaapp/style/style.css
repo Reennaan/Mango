@@ -397,7 +397,7 @@ ul {
     width: 24px;
     height: 24px;
     margin-right: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     display: inline-block;
     cursor: pointer;
     z-index: 10;
@@ -407,6 +407,7 @@ ul {
     width: 20px; 
     height: 20px; 
     display: inline-block;
+    margin-right: 8px;
 }
 
  .form-check-input {
