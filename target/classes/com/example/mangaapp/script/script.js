@@ -1,6 +1,3 @@
-const search = document.querySelector('.search-box');
-const matchList = document.getElementById("match-list")
-const sources = document.querySelector("#sources-combobox")
 const log = document.querySelector("#log")
 const img = document.querySelector(".manga-img");
 const column1 = document.querySelector(".column1");
@@ -8,24 +5,32 @@ const ul1 = document.querySelector("#ul1")
 const ul2 = document.querySelector("#ul2")
 const mangatitle = document.querySelector("#manga-title")
 const background = document.querySelector("#manga-background")
-//const spinner = document.querySelector(".spinner-grow");
+const dropdownItems = document.querySelectorAll("#dropdownItem")
+const dropdownButton = document.querySelector('#dropdownMenuButton');
+const formatDropdown = document.querySelector(".format-dropdown-container");
+const chapterText = document.querySelector(".chapter-text");
+const bodyContainer = document.querySelector("#body-container");
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
     const list = [];
-    sources.addEventListener("change", () => {
-        const value = sources.value;
+    dropdownItems.forEach(item => {
+        item.addEventListener("click", () => {
+            const value = item.textContent;
 
-        if(value === "AnimeLife") {
-            window.Controller.activateAnimeLife();
-        }
+            dropdownButton.textContent = value.toString();
 
-        if(value === "MangaOnlineBiz"){
-            window.Controller.activateMangaOnlineBiz();
-        }
+            if (value === "MangaLife") {
+                window.Controller.activateAnimeLife();
+                dropdownButton.textContent = "MangaLife";
+            }
 
-
+            if (value === "MangaOnlineBiz") {
+                window.Controller.activateMangaOnlineBiz();
+                dropdownButton.textContent = "MangaOnlineBiz";
+            }
+        });
     });
         window.initializeMangaList = function (json) {
             json.forEach(data => {
@@ -47,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-                        if (window.Controller && sources.value == "AnimeLife") {
+                        if (window.Controller) {
                             try {
                                 window.Controller.receiveItem(json[index].id);
                                 //log.innerHTML = "Enviado para Java com sucesso: " + json[index].id+"<br>";
@@ -71,6 +76,25 @@ function chapterList(chapters) {
     ul1.innerHTML = '';
     ul2.innerHTML = '';
 
+    formatDropdown.style.display = "block";
+    chapterText.style.display = "block";
+
+
+    const downloadAllbutton = document.createElement("i")
+    downloadAllbutton.classList.add("downloadAll","fa-solid","fa-download");
+
+    const selectAll = document.createElement("i");
+    selectAll.classList.add("fa-solid","fa-list-check");
+    selectAll.addEventListener("click", () =>{
+        selectAllChapters();
+    });
+
+
+    bodyContainer.appendChild(downloadAllbutton);
+    bodyContainer.appendChild(selectAll);
+
+
+
     for (let i = 0; i < chapters.length; i++) {
         const li = document.createElement("li");
         li.classList.add("li-chapter");
@@ -82,6 +106,7 @@ function chapterList(chapters) {
 
         const cloudicon = document.createElement("i");
         cloudicon.classList.add("fa", "fa-cloud-arrow-down");
+        cloudicon.style.fontSize = "20px"
 
         const checkdownload = document.createElement("input");
         checkdownload.className = "form-check-input";
@@ -91,11 +116,11 @@ function chapterList(chapters) {
 
         const spinner = document.createElement('div');
 
-        // Adicionar as classes ao spinner
+       
         spinner.classList.add('spinner-grow', 'text-light');
         spinner.setAttribute('role', 'status');
 
-        // Criar o elemento span
+      
         const span = document.createElement('span');
         span.classList.add('sr-only');
         span.textContent = 'Loading...';
@@ -160,6 +185,18 @@ function downloadComplete(id){
 }
 
 
+function selectAllChapters(){
+    let allChecked = true;
 
+   
+    checkboxes.forEach(checkbox => {
+        if (!checkbox.checked) {
+            allChecked = false;
+        }
+    });
 
-
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = !allChecked;
+    });
+}

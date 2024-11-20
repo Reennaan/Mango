@@ -59,126 +59,36 @@ body {
     margin: 0;
 }
 
-.custom-combobox {
+.btn-secondary{
     width: 15rem;
     height: 2.375rem;
     background: #242424;
     color: white;
-    border: none;
     border-radius: 0.375rem;
     box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     font-family: 'Dongle', sans-serif;
     font-size: 1.5625rem;
     padding: 0.125rem 2.5rem 0.125rem 0.5rem;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     cursor: pointer;
     transition: background 0.3s, border-color 0.3s;
 }
-
-
-.combobox-wrapper {
-    position: relative;
-}
-select.custom-combobox:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-}
-
-/* Estilo específico para o Chrome/Safari */
-select.custom-combobox::-webkit-scrollbar {
-    width: 8px;
-}
-
-select.custom-combobox::-webkit-scrollbar-track {
-    background: #242424;
-}
-
-select.custom-combobox::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
-    border-radius: 4px;
-}
-
-/* Estilo para quando o select está aberto (opcional) */
-select.custom-combobox[size]:focus,
-select.custom-combobox[size]:active {
+.dropdown-menu .dropdown-item{
     background-color: #242424;
-    border: none;
-}
-
-/* Removendo estilos específicos do JavaFX que possam estar interferindo */
-.combo-box-popup,
-.combo-box-base,
-.list-cell,
-.combo-box .list-cell {
-    all: unset;
-}
-
-.combobox-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0; 
-    height: 0; 
-    border-left: 0.25rem solid transparent;
-    border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid white;
-    pointer-events: none;
-}
-
-.combo-box-popup .list-cell {
+    color: white;
     width: 15rem;
     height: 2.375rem;
+    font-family: 'Dongle', sans-serif;
+    font-size: 1.5625rem;
+    border: none;
+    box-shadow: none;
+}
+.dropdown-menu{
     background-color: #242424;
 }
 
-select.custom-combobox {
-    width: 15rem !important;
-    height: 2.375rem !important;
-    background: #242424 url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")!important;
-    background-repeat: no-repeat !important;
-    background-position: right 0.75rem center !important;
-    background-size: 1rem !important;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
-    font-family: 'Dongle', sans-serif;
-    font-size: 1.5625rem;
-    padding: 0.125rem 2.5rem 0.125rem 0.5rem;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-    cursor: pointer;
-}
-select.custom-combobox::-ms-expand {
-    display: none !important;
-}
 
-select.custom-combobox option {
-    display: none !important;
-    background-color: #242424!important;
-    color: white !important;
-    padding: 1rem 0.5rem !important;
-    font-size: 1.5625rem !important;
-    cursor: pointer !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-}
-select.custom-combobox:hover {
-    background-color: #363636 !important;
-}
-
-select.custom-combobox option:hover {
-    background-color: #363636 !important;
-}
-
-select.custom-combobox option:checked {
-    background-color: #4a4a4a !important;
+.dropdown-menu .dropdown-item:hover{
+    background-color: #363636
 }
 
 
@@ -313,7 +223,7 @@ select.custom-combobox option:checked {
     display: flex;
     justify-content: space-between;
     width: 50%;
-    padding: 20px;
+    padding: 1.25rem;
     color: #f0f0f0;
     font-family: 'Dongle', sans-serif;
     font-size: 1.5625rem;
@@ -343,11 +253,11 @@ ul {
 }
 
 
-.chapter-download:hover {
+.fa-list-check:hover, .downloadAll:hover, .chapter-download:hover {
     color: #ffffff;
     text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.8);
 }
-.chapter-download:hover {
+.fa-list-check:hover, .downloadAll:hover, .chapter-download:hover {
     color: #ffffff;
 
 }
@@ -359,8 +269,8 @@ ul {
     font-size: 2.25rem; 
     color: #FFFFFF;
     position: absolute;
-    margin-left: 72%; 
-    top: 25%; 
+    margin-left: 71%; 
+    top: 20%; 
     transform: translateX(0);
     z-index: 100; 
 }
@@ -389,49 +299,48 @@ ul {
     margin: 5px 0; 
     white-space: nowrap;
     cursor: pointer;
+    font-size: 30px;
 }
 
 
 .chapter-download {
 
-    width: 24px;
-    height: 24px;
-    margin-right: 30px;
-    margin-bottom: 12px;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
     display: inline-block;
     cursor: pointer;
     z-index: 10;
+    margin-bottom: 0.9375rem;
 }
 
+
 .spinner-grow {
-    width: 20px; 
-    height: 20px; 
+    width: 1.25rem; 
+    height: 1.25rem; 
     display: inline-block;
-    margin-right: 8px;
+    margin-left: 0.3125rem;
 }
 
  .form-check-input {
     
-    width: 15px !important;
-    height: 15px !important;
-    margin-right: 15px;
+    width: 0.9375rem !important;
+    height: 0.9375rem !important;
+    margin-right: 0.9375rem;
     display: inline-block;
     cursor: pointer;
+    margin-bottom: 0.625rem;
 }
-
-
-
-
 
 #scroll-container {
     width: 45rem;  
     height: 28rem; 
     overflow-y: auto; 
     border: 1px solid #cccccc00;
-    padding: 10px;
+    padding: 0.625rem;
     flex-direction: row;
-    gap: 20px;
-    padding: 10px;
+    gap: 1.25rem;
+    padding: 0.625rem;
     justify-content: center;
 }
 
@@ -467,8 +376,8 @@ ul {
 .info{
     display: flex;
     place-items: center;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     background-color: #DEDEDE;
     border-radius: 50%;
     color:#161616;
@@ -488,27 +397,54 @@ ul {
     margin-left: 28%;
 }
 
-.loader {
-    border: 4px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 4px solid #3498db;
-    width: 5px;
-    height: 5px;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    vertical-align: middle;
+.format-dropdown-container{
+    display: none;
+    left: 90%;
+    top: 17%;
     z-index: 1000;
-    margin-right: 30px;
-    margin-bottom: 15px;
-    z-index: 10;
-
+}
+.format{
+    width: 4rem;
 }
 
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+#format-dropdown-menu{
+    width: 4rem;
+}
+#format-dropdown{
+    width: 9.80rem;
 }
 
+.fa-list-check{
+    display: none !important;
+    color: #ffffff;
+    position: absolute;
+    margin-left: 63%;
+    margin-top: 13%;
+    z-index: 4;
+    font-size: 20px;
+}
 
+.downloadAll{
+    display: none !important;
+    color: #ffffff;
+    position: absolute;
+    margin-left: 65%;
+    margin-top: 13%;
+    padding-left: 5px;
+    z-index: 4;
+    font-size: 20px; 
+}
+
+.chapter-text{
+    display: none;
+    color: #ffffff;
+    position: absolute;
+    margin-left: 54%;
+    margin-top: 12%;
+    z-index: 4;
+    font-family: 'Dongle', sans-serif;
+    font-size: 2.25rem; 
+    color: #FFFFFF;
+    cursor: pointer;
+}
 

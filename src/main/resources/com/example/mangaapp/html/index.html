@@ -23,13 +23,18 @@
     <div id="combo-container">
         <p id="title">Explore sources</p>
 
-        <div class="combobox-wrapper">
-            <select id="sources-combobox" class="custom-combobox" aria-label=".form-select-lg example">
-                <option value="" selected>Bookmarks </option>
-                <option value="AnimeLife">AnimeLife</option>
-                <option value="MangaOnlineBiz">MangaOnlineBiz</option>
-            </select>
-        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Select the source</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" id = "dropdownItem" href="#">Bookmarks</a>
+              <a class="dropdown-item" id = "dropdownItem" href="#">MangaLife</a>
+              <a class="dropdown-item" id = "dropdownItem" href="#">MangaOnlineBiz</a>
+            </div>
+          </div>
+        
+
+
 
         <form action="#" method="post">
             <div class="search-wrapper">
@@ -56,6 +61,7 @@
 
 
     </div>
+    
     <div id="image-container">
         <img id="manga-background" src="../img/v74_96.png">
     </div>
@@ -78,16 +84,26 @@
     <p id="manga-title">Dorohedoro
     </p>
 
+    <p class="chapter-text">Chapters</p>
+    
+
    
-  
+    <div class="format-dropdown-container dropdown">
+        <button class="format btn btn-secondary dropdown-toggle" type="button" id="dropdownFormat" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Png</button>
+        <div class="dropdown-menu" id ="format-dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" id="format-dropdown" href="#">Png</a>
+          <a class="dropdown-item" id="format-dropdown" href="#">Pdf</a>
+          <a class="dropdown-item" id="format-dropdown" href="#">Kindle</a>
+        </div>
+    </div>
 
 
 
 </div>
 <script src="../script/script.js"></script>
-<script src="https://kit.fontawesome.com/0cfd21d3a8.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/0cfd21d3a8.js" crossorigin="anonymous"></script>
 
 
 
