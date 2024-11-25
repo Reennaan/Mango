@@ -4,13 +4,25 @@ const column1 = document.querySelector(".column1");
 const ul1 = document.querySelector("#ul1")
 const ul2 = document.querySelector("#ul2")
 const mangatitle = document.querySelector("#manga-title")
+const description = document.querySelector("#description")
+const author = document.querySelector("#author")
 const background = document.querySelector("#manga-background")
 const dropdownItems = document.querySelectorAll("#dropdownItem")
 const dropdownButton = document.querySelector('#dropdownMenuButton');
 const formatDropdown = document.querySelector(".format-dropdown-container");
+const formatdropdownButton = document.querySelector(".format");
+const formatItemDropdown = document.querySelectorAll(".format-item");
 const chapterText = document.querySelector(".chapter-text");
 const bodyContainer = document.querySelector("#body-container");
 
+
+
+formatItemDropdown.forEach(item =>{
+    item.addEventListener("click", ()=>{
+        const value = item.textContent;
+        formatdropdownButton.textContent = value.toString();
+    })
+})
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -139,7 +151,7 @@ function chapterList(chapters) {
             spinner.style.display = "inline-block"
             imgdownload.appendChild(spinner);
             imgdownload.offsetHeight;
-            await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName, li.id.toString());
+            await window.Controller.downloadChapter(chapters[i].link, chapters[i].name.trim(), chapters[0].mangaName, li.id.toString(), formatdropdownButton.textContent.toString());
             
            
         };
@@ -148,6 +160,9 @@ function chapterList(chapters) {
             img.src = chapters[0].img;
             mangatitle.innerHTML = chapters[0].mangaName;
             background.src = chapters[0].background;
+            description.innerHTML = chapters[0].desc;
+            author.innerHTML = chapters[0].author;
+            
         }
 
         const chapterText = `${chapters[i].name.trim()}`;

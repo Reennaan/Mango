@@ -66,6 +66,13 @@
             <version>3.12.0</version> <!-- Verifique se esta versão é a mais recente -->
         </dependency>
 
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>9.0.0</version>
+            <type>pom</type>
+        </dependency>
+
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -98,9 +105,28 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-                    <compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
 
-                    </compilerArgs>
+                            <mainClass>com.example.mangaapp.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -110,12 +136,46 @@
                 <executions>
                     <execution>
                         <id>default-cli</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
-                            <mainClass>com.example.mangaapp.Main</mainClass>
+                            <mainClass>com.example.mangaapp.Main</mainClass> <!-- Classe principal -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase> <!-- O JAR shaded será gerado durante a fase de package -->
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom> <!-- Impede a criação de POM reduzido -->
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.apache.maven.plugins:maven-shade-plugin</exclude> <!-- Excluir o plugin shaded de ser empacotado -->
+                                </excludes>
+                            </artifactSet>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.example.mangaapp.Main</mainClass> <!-- Definindo a classe principal -->
+                                </transformer>
+                            </transformers>
+                            <finalName>MangaApp-shaded</finalName> <!-- Definir o nome final do arquivo JAR -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
+
         </plugins>
     </build>
 </project>

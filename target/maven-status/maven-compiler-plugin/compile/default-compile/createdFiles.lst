@@ -1,7 +1,5 @@
-com\example\mangaapp\Controller.class
-com\example\mangaapp\Chapter.class
-com\example\mangaapp\MangaLife.class
 com\example\mangaapp\ChromeDriver.class
-com\example\mangaapp\Mangas.class
-com\example\mangaapp\MangaOnlineBiz.class
+com\example\mangaapp\Chapter.class
 com\example\mangaapp\Main.class
+com\example\mangaapp\MangaOnlineBiz.class
+com\example\mangaapp\MangaLife.class

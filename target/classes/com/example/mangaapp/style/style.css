@@ -275,6 +275,26 @@ ul {
     z-index: 100; 
 }
 
+#author{
+    font-family: 'Dongle', sans-serif;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    position: absolute; 
+    margin-left: 71%; 
+    top: 23%;
+    z-index: 100;  
+}
+
+#description{
+    color: #FFFFFF;
+    position: absolute; 
+    margin-left: 71%; 
+    top: 27%;
+    z-index: 100;
+    width: 18.75rem;  
+}
+
+
 .manga-img-wrapper {
     position: absolute;
     margin-left:54%; 

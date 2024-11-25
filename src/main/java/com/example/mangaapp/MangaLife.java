@@ -1,6 +1,11 @@
 package com.example.mangaapp;
 
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Image;
 import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import org.json.JSONArray;
@@ -10,10 +15,6 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -93,6 +94,8 @@ public class MangaLife {
             WebElement showAllButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".ShowAllChapters")));
             showAllButton.click();
             String img = driver.findElement(By.cssSelector("img.img-fluid")).getAttribute("src");
+            String desc = driver.findElement(By.cssSelector("div .top-5 .Content")).getText();
+            String author = driver.findElement(By.cssSelector(".list-group-item a")).getText();
             List<WebElement> chapterElements = driver.findElements(By.cssSelector(".list-group-item.ChapterLink"));
 
             for (WebElement element : chapterElements) {
@@ -110,6 +113,8 @@ public class MangaLife {
             if (!chapterList.isEmpty()) {
                 chapterList.get(0).setImg(img);
                 chapterList.get(0).setMangaName(id);
+                chapterList.get(0).setDesc(desc);
+                chapterList.get(0).setAuthor(author);
             }
 
         } catch (Exception e) {
@@ -223,13 +228,70 @@ public class MangaLife {
 
         }
         driver.quit();
-       //preciso executar o script de finalização do metodo no js  downloadComplete()
-
-
 
         return downloadedpages;
 
     }
+
+
+    public void downloadMangalifeChapterPdfAsync(String link,String cap,String name,WebEngine webEngine,String id) {
+        new Thread(() -> {
+            try {
+                downloadMangaLifeChapterPdf(link,cap,name);
+                Platform.runLater(() ->{
+                    System.out.println("o id é:"+id);
+                    webEngine.executeScript("if (typeof downloadComplete === 'function') downloadComplete("+id+");");
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+
+
+
+    public void downloadMangaLifeChapterPdf(String link,String cap,String name) throws IOException {
+        WebDriver driver = ChromeDriver.getDriver();
+        String downloadPath = System.getProperty("user.home")+"/Documents/Mango/"+name.replaceAll("[^a-zA-Z0-9 _\\-\\.]","")+"/Chapter_"+cap+".pdf";
+        File directory = new File(downloadPath).getParentFile();
+        if (!directory.exists()) {
+            Files.createDirectories(Paths.get(directory.getAbsolutePath()));
+        }
+        PdfWriter writer = new PdfWriter(downloadPath);
+        PdfDocument pdf = new PdfDocument(writer);
+        com.itextpdf.layout.Document doc = new com.itextpdf.layout.Document(pdf);
+
+        System.out.println("pdfwriter criado com sucesso");
+
+        for(int i = 1; i<60 ;i++){
+            String url = link+i+".html";
+            driver.get(url);
+
+            WebElement pageimg;
+
+            try{
+                pageimg = driver.findElement(By.cssSelector("img.img-fluid"));
+            }catch (Exception e){
+                break;
+            }
+            String imgurl = pageimg.getAttribute("ng-src");
+
+
+            ImageData imageData = ImageDataFactory.create(imgurl);
+            Image image = new Image(imageData);
+            doc.add(image);
+
+        }
+        doc.close();
+        System.out.println("Documento criado eu acho");
+
+    }
+
+
+
 
 
     private void waitForPageLoad(WebDriver driver) {

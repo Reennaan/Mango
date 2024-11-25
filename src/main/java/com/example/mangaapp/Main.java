@@ -118,7 +118,7 @@ public class Main extends Application {
         WebEngine webEngine = webView.getEngine();
         List<Chapter> chapters = mangaLife.searchManga2(item);
         System.out.println(item);
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
         Gson gson = new Gson();
         String jsonChapters = gson.toJson(chapters);
         String script = "chapterList(" + jsonChapters + ")";
@@ -143,7 +143,7 @@ public class Main extends Application {
 
     }
 
-    public void downloadChapter(String link, String chapternum, String name,String id) throws IOException {
+    public void downloadChapter(String link, String chapternum, String name,String id,String format) throws IOException {
         System.out.println("antes:"+chapternum);
         String result = chapternum.replaceAll("[a-zA-Z]", "");
         result = result.replaceAll("\\.","").trim();
@@ -153,7 +153,15 @@ public class Main extends Application {
         String fixedlink = link.substring(0,link.length() -6);
         System.out.println(link);
         this.webEngine = webView.getEngine();
-        mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name,webEngine,id);
+        if(format.trim().equals("Png")){
+            mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name,webEngine,id);
+        } else if (format.trim().equals("Pdf")) {
+            mangaLife.downloadMangalifeChapterPdfAsync(fixedlink,result,name,webEngine,id);
+        }else {
+            mangaLife.downloadMangalifeChapterAsync(fixedlink,result,name,webEngine,id);
+        }
+
+
 
 
     }
