@@ -219,7 +219,9 @@ class Api:
         self.collections = collections
         self._update_in_progress = False
         self._scraper = cloudscraper.create_scraper()  
-        self._settings_file = APP_BASE / ".settings.json"
+        # APP_BASE is read-only when Mango is installed in Program Files.
+        # Keep user preferences beside the logs and downloads instead.
+        self._settings_file = DATA_DIR / "settings.json"
         self.providers ={
             p.name: p for p in load_all_providers()
         }
@@ -622,7 +624,7 @@ class Api:
     def genericFetch(self):
         pprint(self.currentProvider)
         if self.currentProvider == "Select the source":
-            with open('.settings.json','r',encoding="utf-8") as f:
+            with self._settings_file.open('r', encoding="utf-8") as f:
                 manga = json.load(f)
                 for mangas in manga:
                     jsCall = f"window.buildMangaInfo({json.dumps(manga)})"

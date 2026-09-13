@@ -20,12 +20,9 @@ INDEX_URL = "https://raw.githubusercontent.com/Reennaan/plugins/refs/heads/maste
 APP_VERSION_URL = "https://raw.githubusercontent.com/Reennaan/plugins/refs/heads/master/main/app_update.json"
 
 
-logging.basicConfig(
-    filename='app.log',
-    filemode='a',       
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    level=logging.DEBUG
-)
+# Logging is configured by main.py after it chooses the per-user data folder.
+# A library module must not configure a relative log file because, after an
+# install, the current directory can be a protected folder such as Program Files.
 
 
 
