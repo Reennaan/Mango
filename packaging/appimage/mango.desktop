@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mango
+Comment=Aplicação Mango para leitura de mangás
+Exec=Mango
+Icon=mango
+Terminal=false
+Categories=Utility;Graphics;Viewer;
+StartupNotify=true
