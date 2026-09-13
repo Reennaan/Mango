@@ -52,7 +52,9 @@ Mango can be installed on Linux using the provided .deb package or installation 
 
 Download the latest mango.deb release and install it with:
 
+```bash
 sudo apt install ./mango.deb
+```
 
 The package automatically creates a Python virtual environment and installs the required dependencies.
 
@@ -68,8 +70,10 @@ The repository contains a script for generating the Debian package.
 
 From the project root:
 
+```bash
 chmod +x scripts/deb.sh
 ./scripts/deb.sh
+```
 
 The generated package will be placed in:
 
@@ -78,27 +82,36 @@ dist/deb/mango.deb
 
 The repository also includes a Linux installation script:
 
+```bash
 chmod +x scripts/install-linux.sh
 ./scripts/install-linux.sh
+```
+
 Running Mango manually
 
 ## To run Mango without installing the package:
 
+```bash
 chmod +x scripts/run-linux.sh
 ./scripts/run-linux.sh
+```
+
 ## Desktop integration
 
 The desktop.sh script can be used to create the desktop entry for Mango:
 
+```bash
 chmod +x scripts/desktop.sh
 ./scripts/desktop.sh
+```
 ## RPM-based distributions
 
 An RPM build script is also provided:
 
+```bash
 chmod +x scripts/rpm.sh
 ./scripts/rpm.sh
-
+```
 The exact installation command may vary depending on the distribution.
 
 ## Requirements
@@ -115,24 +128,17 @@ See the Windows release instructions and packaged executable available in the Re
 
 Clone the repository:
 
+```bash
 git clone https://github.com/Reennaan/Mango2.git
 cd Mango2
-
 Install the required dependencies:
-
 pip install -r requirements.txt
-
+```
 Run the application:
 
+```bash
 python main.py
-
-
-## Building
-
-Mango can be packaged for Windows using PyInstaller.
-
-The project also includes configuration for automated builds through GitHub Actions.
-
+```
 
 ## Status
 
