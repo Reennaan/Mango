@@ -36,5 +36,5 @@ urllib3==2.6.3
 wrapt==2.1.2
 zstandard==0.25.0
 platformdirs==3.11.0
-qtpy==2.4.0
+qtpy==2.4.3
 PySide6==6.10.1

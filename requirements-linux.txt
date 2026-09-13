@@ -7,4 +7,6 @@ packaging==26.0
 platformdirs==3.11.0
 pywebview==6.1
 PySide6==6.10.1
-qtpy==2.4.0
+# 2.4.0 imports the misspelled QWebEngineScrip with PySide6.
+# 2.4.1 fixes it; pin the current compatible patch release for reproducible builds.
+qtpy==2.4.3
