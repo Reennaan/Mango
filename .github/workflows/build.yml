@@ -1,0 +1,99 @@
+name: Build Mango
+
+on:
+  push:
+    
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies 
+        run: |
+          pip install pyinstaller
+          pip install -r requirements.txt || true
+      - name: Build (Windows)
+        run: pyinstaller Mango.spec
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mango-Windows
+          path: dist/Mango
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install system deps
+        run: |
+          sudo apt update
+          sudo apt install -y \
+          libwebkit2gtk-4.1-dev \
+          libgtk-3-dev \
+          libglib2.0-dev
+          sudo apt-get install -y libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+          pip install "pywebview[qt]"
+          pip install pyinstaller PySide6 qtpy cloudscraper beautifulsoup4 pywebview img2pdf ebooklib platformdirs fake-useragent 
+      - name: Build (Linux)
+        run: pyinstaller mango_linux.spec
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mango-Linux
+          path: dist/Mango
+
+      - name: Install FUSE
+        run: |
+          sudo apt update
+          sudo apt install -y libfuse2
+
+
+      - name: Build AppImage
+        run: |
+          mkdir -p AppDir/usr/bin
+
+          cp -r dist/Mango/* AppDir/usr/bin/
+
+          echo "[Desktop Entry]
+          Name=Mango
+          Exec=Mango
+          Icon=mango
+          Type=Application
+          Categories=Utility;" > AppDir/Mango.desktop
+
+          if [ -f img/icon.png ]; then
+            cp img/icon.png AppDir/mango.png
+          fi
+
+          echo '#!/bin/bash
+          HERE="$(dirname "$(readlink -f "${0}")")"
+          exec "$HERE/usr/bin/Mango"' > AppDir/AppRun
+
+          chmod +x AppDir/AppRun
+
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+          ./appimagetool-x86_64.AppImage AppDir
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mango-AppImage
+          path: Mango-*.AppImage
+

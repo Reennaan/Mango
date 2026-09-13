@@ -1,0 +1,10 @@
+cloudscraper==1.2.71
+beautifulsoup4==4.14.3
+EbookLib==0.20
+fake-useragent==2.2.0
+img2pdf==0.6.3
+packaging==26.0
+platformdirs==3.11.0
+pywebview==6.1
+PySide6==6.10.1
+qtpy==2.4.0

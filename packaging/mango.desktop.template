@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mango
+Comment=Aplicação Mango para leitura de mangás
+Exec=/bin/bash __RUN_SCRIPT__
+Icon=__ICON_PATH__
+Terminal=false
+Categories=Utility;Graphics;Viewer;
+StartupNotify=true
